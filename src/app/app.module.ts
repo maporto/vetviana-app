@@ -7,22 +7,23 @@ import { HttpClientModule } from '@angular/common/http';
 import { MyApp } from './app.component';
 import { AutenticacaoServiceProvider } from '../providers/autenticacao-service/autenticacao-service';
 import { IonicStorageModule } from '@ionic/storage';
-import { HomePage } from '../pages/home/home'
 import { AgendamentoProvider } from '../providers/agendamento/agendamento';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from '../providers/autenticacao-service/interceptor';
 import { registerLocaleData } from '@angular/common';
 import ptBr from '@angular/common/locales/pt';
 registerLocaleData(ptBr);
+import { HomePage } from '../pages/home/home';
+import { HomePageModule } from '../pages/home/home.module';
 
 @NgModule({
   declarations: [
-    MyApp,
-    HomePage
+    MyApp
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
+    HomePageModule,
     IonicModule.forRoot(MyApp),
     IonicStorageModule.forRoot()
   ],

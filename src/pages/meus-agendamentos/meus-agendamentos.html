@@ -16,12 +16,11 @@
 <ion-content padding>
   <ion-list>
     <ion-item *ngFor="let agendamento of agendamentos">
-      <ion-thumbnail item-start>
-          <ion-icon name="medkit" style="font-size: 64px" color="medkit"></ion-icon>
-      </ion-thumbnail>
-      <h2>{{agendamento.servico.descricao}}</h2>
-      <p>{{agendamento.datahora | date : 'd/M/y h:mm (EEEE)'}}</p>
-      <button ion-button clear item-end>View</button>
+      <ion-icon [name]="agendamento.servico.icone" [color]="agendamento.servico.icone" item-start></ion-icon>
+      {{agendamento.datahora | date : 'd/MM/y h:mm (EEEE)'}}
+      <ion-note item-end>
+        {{agendamento.servico.descricao}}
+      </ion-note>
     </ion-item>
   </ion-list>
 </ion-content>

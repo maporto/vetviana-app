@@ -11,14 +11,14 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/catch';
-import { Events } from 'ionic-angular/umd/util/events';
+import 'rxjs/add/observable/throw';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
   token;
   headers = {};
 
-  constructor(private auth: AutenticacaoServiceProvider, private events: Events) {}
+  constructor(private auth: AutenticacaoServiceProvider) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return this.auth.getToken().mergeMap((token) => {
@@ -32,17 +32,14 @@ export class TokenInterceptor implements HttpInterceptor {
           });
       }
       return next.handle(request)
-      // .do((ev: HttpEvent<any>) => {
-      //   return ev;
-      // }).catch(err => {
-      //   if (err instanceof HttpErrorResponse) {
-      //       if (err.status === 401) {
-      //           this.auth.logout();
-      //           this.events.publish('http:unauthoraized', "Session Expired");
-      //       }
-      //   }
-      //   return Observable.throw(err);
-      // });;
+      .do((ev: HttpEvent<any>) => {
+        return ev;
+      }).catch(err => {
+        if (err instanceof HttpErrorResponse) {
+          this.auth.logout().subscribe();
+        }
+        return Observable.throw(err);
+      });;
     });
   }
 }

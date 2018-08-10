@@ -23,13 +23,7 @@ export class LoginPage {
   };
   buscando = false;
   
-  constructor(public navCtrl: NavController, public navParams: NavParams, public authService: AutenticacaoServiceProvider) {
-    if (this.authService.userIsLogged()) {
-      this.entrar();
-    } else {
-      this.podeVer = true;
-    }
-  }
+  constructor(public navCtrl: NavController, public navParams: NavParams, public authService: AutenticacaoServiceProvider) {}
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad LoginPage');
@@ -39,16 +33,11 @@ export class LoginPage {
     this.buscando = true;
     this.authService.login(credential.email,credential.password).subscribe(
       (user) => {
-        this.entrar();
+        this.navCtrl.setRoot(HomePage);        
       },
       (error) => {
         this.buscando = false;
       }
     );
   }
-  
-  entrar() {
-    this.navCtrl.setRoot(HomePage);        
-  }
-
 }

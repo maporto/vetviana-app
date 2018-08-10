@@ -1,23 +1,24 @@
 import { Component } from '@angular/core';
-import { Platform, Events, NavController } from 'ionic-angular';
+import { Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { AutenticacaoServiceProvider } from '../providers/autenticacao-service/autenticacao-service';
 
 @Component({
   templateUrl: 'app.html'
 })
 export class MyApp {
-  rootPage:any = 'LoginPage';
+  rootPage:any;
 
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, events: Events, navigation: NavController) {
-    // events.subscribe('http:unauthoraized', error => {
-    //   this.rootPage = 'LoginPage';
-    // });
-    platform.ready().then(() => {
-      // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.
-      statusBar.styleDefault();
-      splashScreen.hide();
+  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, auth: AutenticacaoServiceProvider) {
+    auth.userIsLogged().subscribe((logado:boolean) => {
+      this.rootPage = logado ? 'HomePage' : 'LoginPage'
+      platform.ready().then(() => {
+        // Okay, so the platform is ready and our plugins are available.
+        // Here you can do any higher level native things you might need.
+        statusBar.styleDefault();
+        splashScreen.hide();
+      });
     });
   }
 }
