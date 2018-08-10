@@ -1,14 +1,4 @@
-<ion-header>
-  <ion-navbar>
-    <ion-title>
-      Ionic Blank
-    </ion-title>
-  </ion-navbar>
-</ion-header>
-
-<ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
-</ion-content>
+<ion-tabs selectedIndex="1">
+    <ion-tab [root]="agendarRoot" tabTitle="Agendar" tabIcon="add-circle"></ion-tab>
+    <ion-tab [root]="meusAgendamentosRoot" tabTitle="Meus agendamentos" tabIcon="calendar"></ion-tab>
+</ion-tabs>

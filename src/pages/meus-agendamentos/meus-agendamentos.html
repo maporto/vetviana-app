@@ -1,0 +1,27 @@
+<!--
+  Generated template for the MeusAgendamentosPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Meus Agendamentos</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-list>
+    <ion-item *ngFor="let agendamento of agendamentos">
+      <ion-thumbnail item-start>
+          <ion-icon name="medkit" style="font-size: 64px" color="medkit"></ion-icon>
+      </ion-thumbnail>
+      <h2>{{agendamento.servico.descricao}}</h2>
+      <p>{{agendamento.datahora | date : 'd/M/y h:mm (EEEE)'}}</p>
+      <button ion-button clear item-end>View</button>
+    </ion-item>
+  </ion-list>
+</ion-content>

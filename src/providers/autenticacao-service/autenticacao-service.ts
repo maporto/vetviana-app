@@ -4,7 +4,9 @@ import { Observable } from 'rxjs/Observable';
 import { User } from '../../models/User';
 import { tap } from 'rxjs/operators';
 import { Storage } from '@ionic/storage';
-
+import { AppSettings } from '../AppSettings';
+import { Observer } from 'rxjs/Observer';
+import { fromPromise } from 'rxjs/observable/fromPromise';
 /*
   Generated class for the AutenticacaoServiceProvider provider.
 
@@ -17,35 +19,35 @@ const httpOptions = {
 
 @Injectable()
 export class AutenticacaoServiceProvider {
-  public token: string;
-  private postLogin = 'http://192.168.25.147/vetviana-srv/server.php/api/login';
+  private postLogin = AppSettings.API_ENDPOINT + 'login';
 
   constructor(public http: HttpClient, private storage: Storage) {
-  //  storage.get('token').then((token) => this.token = token ? token : null);
+    // storage.get('token').then((token) => this.token = token ? token : null);
   }
 
   login (username: string, password: string): Observable<User> {
     let credentials = JSON.stringify({ email: username, password: password });
       return this.http.post<User>(this.postLogin, credentials, httpOptions).pipe(
         tap((user:User) => {
-          this.token = user.api_token;
-          this.storage.set('token', this.token);
+          this.storage.set('token', user.api_token);
         })
       );
   }
 
-  userIsLogged() {
-    return this.storage.get('token').then(val => {
-      if (val !== undefined) {
-        return val;
-      } else {
-        return false
-      }
+  userIsLogged(): boolean {
+    return Observable.create((observer: Observer<boolean>) => {
+      this.storage.get('token').then(token => {
+        return token ? true : false;
+      });
     });
   }
 
 	logout(): void {
-		this.token = null;
 		this.storage.remove('token');
-	}
+  }
+
+  getToken() {
+    return fromPromise(this.storage.get('token'));
+  }
 }
+ 

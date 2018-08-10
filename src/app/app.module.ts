@@ -1,15 +1,19 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { ErrorHandler, NgModule } from '@angular/core';
-import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
+import { ErrorHandler, NgModule, LOCALE_ID } from '@angular/core';
+import { IonicApp, IonicErrorHandler, IonicModule} from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { HttpClientModule } from '@angular/common/http';
 import { MyApp } from './app.component';
-import { HomePage } from '../pages/home/home';
-import { LoginPageModule } from '../pages/login/login.module';
-import { Pagina2PageModule } from '../pages/pagina2/pagina2.module';
 import { AutenticacaoServiceProvider } from '../providers/autenticacao-service/autenticacao-service';
 import { IonicStorageModule } from '@ionic/storage';
+import { HomePage } from '../pages/home/home'
+import { AgendamentoProvider } from '../providers/agendamento/agendamento';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { TokenInterceptor } from '../providers/autenticacao-service/interceptor';
+import { registerLocaleData } from '@angular/common';
+import ptBr from '@angular/common/locales/pt';
+registerLocaleData(ptBr);
 
 @NgModule({
   declarations: [
@@ -20,8 +24,6 @@ import { IonicStorageModule } from '@ionic/storage';
     BrowserModule,
     HttpClientModule,
     IonicModule.forRoot(MyApp),
-    LoginPageModule,
-    Pagina2PageModule,
     IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],
@@ -33,7 +35,14 @@ import { IonicStorageModule } from '@ionic/storage';
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    AutenticacaoServiceProvider
+    AutenticacaoServiceProvider,
+    AgendamentoProvider,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    },
+    { provide: LOCALE_ID, useValue: 'pt-BR' }
   ]
 })
 export class AppModule {}

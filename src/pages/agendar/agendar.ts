@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 /**
- * Generated class for the Pagina2Page page.
+ * Generated class for the AgendarPage page.
  *
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
@@ -10,16 +10,16 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 @IonicPage()
 @Component({
-  selector: 'page-pagina2',
-  templateUrl: 'pagina2.html',
+  selector: 'page-agendar',
+  templateUrl: 'agendar.html',
 })
-export class Pagina2Page {
+export class AgendarPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad Pagina2Page');
+    console.log('ionViewDidLoad AgendarPage');
   }
 
 }

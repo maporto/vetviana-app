@@ -16,25 +16,33 @@ import { HomePage } from '../home/home';
   templateUrl: 'login.html',
 })
 export class LoginPage {
-  public podeVer: boolean = false;
+  podeVer = true;
+  credential = {
+    email: '',
+    password: ''
+  };
+  buscando = false;
   
   constructor(public navCtrl: NavController, public navParams: NavParams, public authService: AutenticacaoServiceProvider) {
-    authService.userIsLogged().then(token => {
+    if (this.authService.userIsLogged()) {
+      this.entrar();
+    } else {
       this.podeVer = true;
-      if (token) {
-        this.entrar()
-      }
-    });
+    }
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad LoginPage');
   }
 
-  login (email: string, password: string ) {
-    this.authService.login(email,password).subscribe(
+  login (credential) {
+    this.buscando = true;
+    this.authService.login(credential.email,credential.password).subscribe(
       (user) => {
         this.entrar();
+      },
+      (error) => {
+        this.buscando = false;
       }
     );
   }
