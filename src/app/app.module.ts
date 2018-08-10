@@ -8,13 +8,15 @@ import { MyApp } from './app.component';
 import { AutenticacaoServiceProvider } from '../providers/autenticacao-service/autenticacao-service';
 import { IonicStorageModule } from '@ionic/storage';
 import { AgendamentoProvider } from '../providers/agendamento/agendamento';
+import { ServicoProvider } from '../providers/servico/servico';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from '../providers/autenticacao-service/interceptor';
 import { registerLocaleData } from '@angular/common';
 import ptBr from '@angular/common/locales/pt';
-registerLocaleData(ptBr);
 import { HomePage } from '../pages/home/home';
 import { HomePageModule } from '../pages/home/home.module';
+import { DatePicker } from '@ionic-native/date-picker';
+registerLocaleData(ptBr);
 
 @NgModule({
   declarations: [
@@ -38,6 +40,8 @@ import { HomePageModule } from '../pages/home/home.module';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AutenticacaoServiceProvider,
     AgendamentoProvider,
+    ServicoProvider,
+    DatePicker,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,

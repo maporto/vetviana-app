@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { AppSettings } from '../AppSettings';
 import { Agendamento } from '../../models/Agendamento';
-import { tap } from 'rxjs/operators';
 
 /*
   Generated class for the AgendamentoProvider provider.
@@ -14,15 +13,15 @@ import { tap } from 'rxjs/operators';
 @Injectable()
 export class AgendamentoProvider {
   private API_MEUS_AGENDAMENTOS = AppSettings.API_ENDPOINT + 'meus-agendamentos';
-  // private API_AGENDAMENTO = AppSettings.API_ENDPOINT + 'agendamento';
+  private API_AGENDAMENTO = AppSettings.API_ENDPOINT + 'agendamento';
 
   constructor(public http: HttpClient) {}
 
   getMeusAgendamentos (): Observable<Agendamento[]> {
-      return this.http.get<Agendamento[]>(this.API_MEUS_AGENDAMENTOS).pipe(
-        tap((agendamentos) => {
-          return agendamentos;
-        })
-      );
+    return this.http.get<Agendamento[]>(this.API_MEUS_AGENDAMENTOS);
+  }
+
+  agendar (agendamento:Agendamento): Observable<Agendamento> {
+    return this.http.post<Agendamento>(this.API_AGENDAMENTO, agendamento);
   }
 }

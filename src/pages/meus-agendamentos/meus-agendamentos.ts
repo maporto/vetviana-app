@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
 import { AgendamentoProvider } from '../../providers/agendamento/agendamento';
 import { Agendamento } from '../../models/Agendamento';
+import { Events } from 'ionic-angular';
 
 /**
  * Generated class for the MeusAgendamentosPage page.
@@ -16,16 +17,31 @@ import { Agendamento } from '../../models/Agendamento';
   templateUrl: 'meus-agendamentos.html',
 })
 export class MeusAgendamentosPage {
-  agendamentos:any;
+  private agendamentos:Agendamento[];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private agendaService: AgendamentoProvider) {
-    this.agendaService.getMeusAgendamentos().subscribe((agendamentos: Agendamento[]) => {
-      this.agendamentos = agendamentos;
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    private agendaService: AgendamentoProvider,
+    public loadingCtrl: LoadingController,
+    public events: Events,
+  ) {
+    
+    events.subscribe('agendamento:created', (agendamento, time) => {
+      this.agendamentos.push(agendamento);
     });
   }
-
+  
   ionViewDidLoad() {
-    console.log('ionViewDidLoad MeusAgendamentosPage');
+    const loader = this.loadingCtrl.create({content: "Carregando..."});
+    loader.present();
+    this.agendaService.getMeusAgendamentos().subscribe((agendamentos: Agendamento[]) => {
+      this.agendamentos = agendamentos;
+      loader.dismiss();
+    });
   }
+  
+  ionViewWillEnter() {
 
+  }
 }
