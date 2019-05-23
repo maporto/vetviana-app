@@ -47,14 +47,19 @@ export class AgendarPage {
     return this.datePicker.show({
       date: new Date(),
       mode: 'datetime',
-      androidTheme: this.datePicker.ANDROID_THEMES.THEME_HOLO_DARK
+      androidTheme: this.datePicker.ANDROID_THEMES.THEME_TRADITIONAL,
+      locale: 'pt-Br',
+      minDate: new Date(),
+      is24Hour: true 
     });
   }
 
   agendar() {
     this.selectData().then((data) => {
-      this.agendamento.datahora =  new Date();
-      this.enviar(this.agendamento);
+      console.log(data.toISOString());
+      this.agendamento.datahora = data;
+      console.log(this.agendamento);
+      // this.enviar(this.agendamento);
     });
   }
 
